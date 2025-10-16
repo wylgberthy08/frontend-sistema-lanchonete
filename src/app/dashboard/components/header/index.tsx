@@ -3,7 +3,6 @@
 import Link from "next/link";
 import styles from "./styles.module.scss";
 import Image from "next/image";
-import Logo from "../../../../../public/logo.svg";
 import { LogOut } from "lucide-react";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
@@ -20,7 +19,7 @@ export function Header() {
         <Link href="/dashboard">
           <Image
             alt="logo"
-            src={Logo}
+            src="/logo.svg"
             width={190}
             height={60}
             priority
@@ -33,7 +32,7 @@ export function Header() {
 
           <Link href="/dashboard/product">Produtos</Link>
 
-          <form>
+          <form action={handleLogout}>
             <button type="submit">
               <LogOut size={24} color="#fff" />
             </button>
