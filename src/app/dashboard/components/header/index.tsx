@@ -6,11 +6,13 @@ import Image from "next/image";
 import { LogOut } from "lucide-react";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import {toast} from 'sonner'
 export function Header() {
    const router = useRouter();
   
   async function handleLogout() {
     deleteCookie("session", {path: "/"});
+    toast.success("Deslogado com sucesso!")
     router.replace("/")
   }
   return (

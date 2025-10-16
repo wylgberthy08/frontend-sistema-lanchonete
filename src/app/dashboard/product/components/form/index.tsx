@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Button } from "@/app/dashboard/components/button";
 import { api } from "@/service/api";
 import { getCookieClient } from "@/lib/cookieClient";
+import {toast} from 'sonner'
+import { useRouter } from "next/navigation";
 
 interface CategoryProps {
   id: string;
@@ -18,6 +20,7 @@ interface Props {
 }
 
 export function Form({ categories }: Props) {
+  const router = useRouter();
   const [image, setImage] = useState<File>();
   const [preview, setPreview] = useState<string>("");
 
@@ -28,6 +31,7 @@ export function Form({ categories }: Props) {
     const description = formData.get("description")?.toString();
 
     if (!name || !price || !description || !image) {
+      toast.warning("Preencha todos os campos.");
       return;
     }
 
@@ -47,10 +51,12 @@ export function Form({ categories }: Props) {
         },
       })
       .catch((err) => {
-        console.log(err);
+       toast.warning("Erro ao cadastrar o produto.");
       });
 
-    console.log("CADASTRADO COM SUCESSO!");
+    toast.success("Produto cadastrado com sucesso!")
+    router.push("/dashboard/product");
+    
   }
 
   function handleFile(event: React.ChangeEvent<HTMLInputElement>) {
@@ -58,7 +64,7 @@ export function Form({ categories }: Props) {
       const image = event.target.files[0];
 
       if (image.type !== "image/png" && image.type !== "image/jpeg") {
-        console.log("Tipo de arquivo inválido. Aceitamos apenas PNG e JPEG.");
+        toast.warning("Tipo de arquivo inválido. Aceitamos apenas PNG e JPEG.");
         return;
       }
       setImage(image);
